@@ -42,19 +42,21 @@ const App = () => {
   };
 
   return (
-    <div className="centre">
-      <h2>Special Calculator App</h2>
-      <h4 className="inputBox">{sum}</h4>
-      <div className="buttonWrap">
-        {buttons.map((button, index) => (
-          <button
-            key={index}
-            onClick={() => handleClick(button)}
-            className="btn"
-          >
-            {button}
-          </button>
-        ))}
+    <div className="app">
+      <div className="centre">
+        <h2>Special Calculator App</h2>
+        <h4 className="inputBox">{sum}</h4>
+        <div className="buttonWrap">
+          {buttons.map((button, index) => (
+            <button
+              key={index}
+              onClick={() => handleClick(button)}
+              className="btn"
+            >
+              {button}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
