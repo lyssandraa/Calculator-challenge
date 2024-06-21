@@ -43,8 +43,8 @@ const App = () => {
 
   return (
     <div className="app">
+      <h2>Special Calculator App</h2>
       <div className="centre">
-        <h2>Special Calculator App</h2>
         <h4 className="inputBox">{sum}</h4>
         <div className="buttonWrap">
           {buttons.map((button, index) => (
