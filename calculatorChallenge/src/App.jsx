@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { evaluate } from "mathjs";
 import "./App.css";
 
 const App = () => {
   const [sum, setSum] = useState("");
+  const [previousAnswer, setPreviousAnswer] = useState("");
   const buttons = [
     "(",
     ")",
+    "ANS",
     "C",
     "1",
     "2",
@@ -24,7 +26,6 @@ const App = () => {
     "/",
     "^",
     "=",
-    "ANS",
   ];
 
   const handleClick = (btn) => {
@@ -33,23 +34,45 @@ const App = () => {
       setSum("");
     } else if (btn === "=") {
       try {
-        // 3valuate the expression and set the result as the new sum //
-        setSum(evaluate(sum).toString());
+        const evaluatedResult = evaluate(sum.replace(/ANS/g, previousAnswer));
+        setSum(evaluatedResult.toString());
+        setPreviousAnswer(evaluatedResult.toString());
       } catch (error) {
         // handle any errors that may occur during evaluation //
         setSum("Error");
       }
+    } else if (btn === "ANS") {
+      setSum((prev) => prev + previousAnswer);
     } else {
-      // append the clicked button value to the sum //
-      setSum((prevSum) => prevSum + btn);
+      setSum((prev) => prev + btn);
     }
   };
+
+  const handleKeyDown = (event) => {
+    const key = event.key;
+    if (key === "Enter") {
+      handleClick("=");
+    } else if (key === "Backspace") {
+      setSum((prev) => prev.slice(0, -1));
+    } else if (buttons.includes(key) || key.match(/[0-9.]/)) {
+      handleClick(key);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div className="app">
       <h2>Special Calculator App</h2>
       <div className="centre">
-        <h4 className="inputBox">{sum}</h4>
+        <div className="inputBox">
+          <div className="sum">{sum}</div>
+        </div>
         <div className="buttonWrap">
           {buttons.map((button, index) => (
             <button
