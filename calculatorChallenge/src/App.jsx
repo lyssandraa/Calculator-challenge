@@ -42,6 +42,7 @@ const App = () => {
         setSum("Error");
       }
     } else if (btn === "ANS") {
+      // replace occurrences of "ANS" with previousAnswer //
       setSum((prev) => prev + previousAnswer);
     } else {
       setSum((prev) => prev + btn);
