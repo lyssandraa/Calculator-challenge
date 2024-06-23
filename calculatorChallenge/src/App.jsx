@@ -5,6 +5,9 @@ import "./App.css";
 const App = () => {
   const [sum, setSum] = useState("");
   const buttons = [
+    "(",
+    ")",
+    "C",
     "1",
     "2",
     "3",
@@ -19,24 +22,25 @@ const App = () => {
     "+",
     "*",
     "/",
+    "^",
     "=",
-    "C",
+    "ANS",
   ];
 
   const handleClick = (btn) => {
     if (btn === "C") {
-      // Clear the sum
+      // clear the sum //
       setSum("");
     } else if (btn === "=") {
       try {
-        // Evaluate the expression and set the result as the new sum
+        // 3valuate the expression and set the result as the new sum //
         setSum(evaluate(sum).toString());
       } catch (error) {
-        // Handle any errors that may occur during evaluation
+        // handle any errors that may occur during evaluation //
         setSum("Error");
       }
     } else {
-      // Append the clicked button value to the sum
+      // append the clicked button value to the sum //
       setSum((prevSum) => prevSum + btn);
     }
   };
