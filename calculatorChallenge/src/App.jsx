@@ -3,8 +3,8 @@ import { evaluate } from "mathjs";
 import "./App.css";
 
 const App = () => {
-  const [sum, setSum] = useState("");
-  const [previousAnswer, setPreviousAnswer] = useState("");
+  const [sum, setSum] = useState(""); // current expression or result //
+  const [previousAnswer, setPreviousAnswer] = useState(""); // previous calculated answer //
   const buttons = [
     "(",
     ")",
@@ -28,13 +28,15 @@ const App = () => {
     "=",
   ];
 
+  // handles button clicks //
   const handleClick = (btn) => {
     if (btn === "C") {
-      // clear the sum //
+      // reset sum to empty string //
       setSum("");
     } else if (btn === "=") {
       try {
         const evaluatedResult = evaluate(sum.replace(/ANS/g, previousAnswer));
+        // updates sum with evaluated result //
         setSum(evaluatedResult.toString());
         setPreviousAnswer(evaluatedResult.toString());
       } catch (error) {
@@ -42,13 +44,14 @@ const App = () => {
         setSum("Error");
       }
     } else if (btn === "ANS") {
-      // replace occurrences of "ANS" with previousAnswer //
+      // appends previousAnswer to current sum //
       setSum((prev) => prev + previousAnswer);
     } else {
       setSum((prev) => prev + btn);
     }
   };
 
+  // handles keyboard events //
   const handleKeyDown = (event) => {
     const key = event.key;
     if (key === "Enter") {
@@ -60,6 +63,7 @@ const App = () => {
     }
   };
 
+  // effect hook to add eventlistener for keyboard events //
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
