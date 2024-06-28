@@ -5,6 +5,7 @@ import "./App.css";
 const App = () => {
   const [sum, setSum] = useState(""); // current expression or result //
   const [previousAnswer, setPreviousAnswer] = useState(""); // previous calculated answer //
+  const MAX_CHARACTERS = 15;
   const buttons = [
     "(",
     ")",
@@ -45,9 +46,13 @@ const App = () => {
       }
     } else if (btn === "ANS") {
       // appends previousAnswer to current sum //
-      setSum((prev) => prev + previousAnswer);
+      if (sum.length + previousAnswer.length <= MAX_CHARACTERS) {
+        setSum((prev) => prev + previousAnswer);
+      }
     } else {
-      setSum((prev) => prev + btn);
+      if (sum.length < MAX_CHARACTERS) {
+        setSum((prev) => prev + btn);
+      }
     }
   };
 
@@ -59,7 +64,9 @@ const App = () => {
     } else if (key === "Backspace") {
       setSum((prev) => prev.slice(0, -1));
     } else if (buttons.includes(key) || key.match(/[0-9.]/)) {
-      handleClick(key);
+      if (sum.length < MAX_CHARACTERS) {
+        handleClick(key);
+      }
     }
   };
 
